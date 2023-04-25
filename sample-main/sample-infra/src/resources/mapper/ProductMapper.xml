@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hixtrip.sample.infra.ProductMapper">
+
+    <!-- 定义查询结果的映射 -->
+    <resultMap id="ProductResultMap" type="com.hixtrip.sample.domain.sample.model.Product">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="category_id" property="categoryId" />
+        <result column="price" property="price" />
+        <result column="image" property="image" />
+        <result column="description" property="description" />
+        <result column="status" property="status" />
+        <result column="stock" property="stock" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="create_user" property="createUser" />
+        <result column="update_user" property="updateUser" />
+    </resultMap>
+    <!-- 扣减库存 -->
+    <update id="reduceStock">
+    UPDATE product
+    SET stock = stock - #{quantity}, update_time = NOW()
+    WHERE id = #{id} AND stock >= #{quantity}
+    </update>
+
+    <!-- 根据ID查询商品信息 -->
+    <select id="findById" resultMap="ProductResultMap">
+        SELECT * FROM product WHERE id = #{id}
+    </select>
+
+</mapper>

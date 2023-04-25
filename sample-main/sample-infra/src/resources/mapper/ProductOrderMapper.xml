@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hixtrip.sample.infra.ProductOrderMapper">
+    <insert id="insert" parameterType="com.hixtrip.sample.domain.sample.model.ProductOrder">
+        INSERT INTO product_orders
+        (order_number, status, user_id, address_id, product_id, product_number, amount, pay_method, remark)
+        VALUES
+            (#{orderNumber}, #{status}, #{userId}, #{addressId}, #{productId}, #{productNumber}, #{amount}, #{payMethod}, #{remark})
+    </insert>
+</mapper>
