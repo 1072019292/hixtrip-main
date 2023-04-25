@@ -41,7 +41,11 @@ public class OrderServiceImpl implements OrderService {
         BigDecimal totalPrice = product.getPrice().multiply(new BigDecimal(request.getProductNumber()));
 
         // 模拟支付操作
-        // ...
+        String outTradeNo = UUID.randomUUID().toString().replace("-", "");
+        String paymentOrderNumber = simulateWeChatPay(outTradeNo, totalPrice, "购买商品：" + product.getName());
+        if (paymentOrderNumber == null) {
+            return new CreateOrderResponse(null, "支付失败");
+        }
 
         // 生成订单
         ProductOrder order = new ProductOrder();
@@ -63,4 +67,35 @@ public class OrderServiceImpl implements OrderService {
             return new CreateOrderResponse(null, "订单创建失败");
         }
     }
+
+    private String simulateWeChatPay(String outTradeNo, BigDecimal amount, String productDescription) {
+        try {
+            System.out.println("模拟微信支付开始...");
+
+            // 随机生成一个用户的OpenID
+            String openId = "o" + UUID.randomUUID().toString().replace("-", "").substring(0, 27);
+
+            // 随机生成一个交易类型
+            String tradeType = "JSAPI";
+
+            // 随机生成一个签名
+            String sign = UUID.randomUUID().toString().replace("-", "").substring(0, 32).toUpperCase();
+
+            // 打印模拟的请求参数
+            System.out.println("out_trade_no: " + outTradeNo);
+            System.out.println("total_fee: " + amount);
+            System.out.println("body: " + productDescription);
+            System.out.println("openid: " + openId);
+            System.out.println("trade_type: " + tradeType);
+            System.out.println("sign: " + sign);
+
+            Thread.sleep(3000); // 模拟支付耗时
+            System.out.println("模拟微信支付成功");
+            return UUID.randomUUID().toString().replace("-", ""); // 返回支付订单号
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }
